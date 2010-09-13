@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<!--
+
+The MIT License
+
+Copyright (c) 2010 Norio Nomura
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+-->
+<html>
+<head>
+<title>Translation Window</title>
+<script src="options.js"></script>
+<script type="text/javascript" src="http://www.google.com/jsapi"></script>
+<script type="text/javascript">
+
+function save_options() {
+    for (var i in options) {
+        var element = document.getElementById(i);
+        localStorage[i] = element.value;
+    }
+}
+
+function restore_options() {
+    for (var i in options) {
+        var element = document.getElementById(i);
+        element.value = localStorage[i] != null ? localStorage[i] : options[i];
+        element.addEventListener("change", save_options, false);
+    }
+}
+
+</script>
+<style>
+body {
+    width: 464px;
+}
+
+option {
+    width: 100%;
+}
+
+.extension-settings {
+    width: 100%;
+    border-spacing: 0;
+}
+
+.extension-settings tr > * {
+    padding: 5px 3px;
+}
+
+.extension-settings th {
+    width: 125px;
+    white-space: nowrap;
+    vertical-align: top;
+    line-height: 26px;
+}
+
+.extension-settings tr.group > th {
+    padding-left: 64px;
+    text-align: left;
+    padding-top: 18px;
+    padding-bottom: 0;
+    color: rgb(64, 64, 64);
+    font-size: 13px;
+    font-weight: bold;
+    line-height: normal;
+}
+
+.extension-settings > tr:first-child > * {
+    padding-top: 0 !important;
+}
+
+.extension-settings input[type="range"], .extension-settings select {
+    margin: 0;
+    vertical-align: middle;
+}
+
+.extension-settings input {
+    margin-left: 0;
+}
+
+.extension-settings select, .extension-settings input {
+    min-width: 60px;
+}
+
+.extension-settings select, .extension-settings input[type="text"], .extension-settings input[type="password"], .extension-settings input[type="range"] {
+    width: 100%;
+}
+
+.extension-settings tr:not(.group) > th {
+    text-align: right;
+    font-weight: normal;
+}
+
+.extension-settings tr:not(.group) > th:not(:empty):after {
+    content: ":";
+}
+</style>
+</head>
+<body onload="restore_options()">
+<table class="extension-settings">
+<tr>
+<th>Language</th>
+<td>
+<select id="language">
+<option value="af">AFRIKAANS</option>
+<option value="sq">ALBANIAN</option>
+<option value="am">AMHARIC</option>
+<option value="ar">ARABIC</option>
+<option value="hy">ARMENIAN</option>
+<option value="az">AZERBAIJANI</option>
+<option value="eu">BASQUE</option>
+<option value="be">BELARUSIAN</option>
+<option value="bn">BENGALI</option>
+<option value="bh">BIHARI</option>
+<option value="bg">BULGARIAN</option>
+<option value="my">BURMESE</option>
+<option value="ca">CATALAN</option>
+<option value="chr">CHEROKEE</option>
+<option value="zh">CHINESE</option>
+<option value="zh-CN">CHINESE_SIMPLIFIED</option>
+<option value="zh-TW">CHINESE_TRADITIONAL</option>
+<option value="hr">CROATIAN</option>
+<option value="cs">CZECH</option>
+<option value="da">DANISH</option>
+<option value="dv">DHIVEHI</option>
+<option value="nl">DUTCH</option>
+<option value="en">ENGLISH</option>
+<option value="eo">ESPERANTO</option>
+<option value="et">ESTONIAN</option>
+<option value="tl">FILIPINO</option>
+<option value="fi">FINNISH</option>
+<option value="fr">FRENCH</option>
+<option value="gl">GALICIAN</option>
+<option value="ka">GEORGIAN</option>
+<option value="de">GERMAN</option>
+<option value="el">GREEK</option>
+<option value="gn">GUARANI</option>
+<option value="gu">GUJARATI</option>
+<option value="iw">HEBREW</option>
+<option value="hi">HINDI</option>
+<option value="hu">HUNGARIAN</option>
+<option value="is">ICELANDIC</option>
+<option value="id">INDONESIAN</option>
+<option value="iu">INUKTITUT</option>
+<option value="it">ITALIAN</option>
+<option value="ja">JAPANESE</option>
+<option value="kn">KANNADA</option>
+<option value="kk">KAZAKH</option>
+<option value="km">KHMER</option>
+<option value="ko">KOREAN</option>
+<option value="ku">KURDISH</option>
+<option value="ky">KYRGYZ</option>
+<option value="lo">LAOTHIAN</option>
+<option value="lv">LATVIAN</option>
+<option value="lt">LITHUANIAN</option>
+<option value="mk">MACEDONIAN</option>
+<option value="ms">MALAY</option>
+<option value="ml">MALAYALAM</option>
+<option value="mt">MALTESE</option>
+<option value="mr">MARATHI</option>
+<option value="mn">MONGOLIAN</option>
+<option value="ne">NEPALI</option>
+<option value="no">NORWEGIAN</option>
+<option value="or">ORIYA</option>
+<option value="ps">PASHTO</option>
+<option value="fa">PERSIAN</option>
+<option value="pl">POLISH</option>
+<option value="pt-PT">PORTUGUESE</option>
+<option value="pa">PUNJABI</option>
+<option value="ro">ROMANIAN</option>
+<option value="ru">RUSSIAN</option>
+<option value="sa">SANSKRIT</option>
+<option value="sr">SERBIAN</option>
+<option value="sd">SINDHI</option>
+<option value="si">SINHALESE</option>
+<option value="sk">SLOVAK</option>
+<option value="sl">SLOVENIAN</option>
+<option value="es">SPANISH</option>
+<option value="sw">SWAHILI</option>
+<option value="sv">SWEDISH</option>
+<option value="tg">TAJIK</option>
+<option value="ta">TAMIL</option>
+<option value="tl">TAGALOG</option>
+<option value="te">TELUGU</option>
+<option value="th">THAI</option>
+<option value="bo">TIBETAN</option>
+<option value="tr">TURKISH</option>
+<option value="uk">UKRAINIAN</option>
+<option value="ur">URDU</option>
+<option value="uz">UZBEK</option>
+<option value="ug">UIGHUR</option>
+<option value="vi">VIETNAMESE</option>
+</select>
+</td>
+</tr>
+</table>
+</body>
+</html>

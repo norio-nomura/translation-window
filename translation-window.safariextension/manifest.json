@@ -1,0 +1,15 @@
+{
+    "name":"Translation Window",
+    "version":"1.0",
+    "description":"Translation Window",
+    "background_page":"global.html",
+    "content_scripts":[
+        {
+            "matches":["https://*/*","http://*/*"],
+            "js":["afterLoad.js"],
+            "run_at":"document_end"
+        }
+    ],
+    "options_page": "options.html",
+    "permissions":["http://www.google.com/"]
+}
