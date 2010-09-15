@@ -31,33 +31,48 @@ THE SOFTWARE.
 <script type="text/javascript" src="http://www.google.com/jsapi"></script>
 <script type="text/javascript">
 
-function handleMessageEvent(messageEvent, sender, sendResponse) {
-    if(messageEvent.name == "Translate") {
-        var text = messageEvent.message.text;
-        google.language.detect(text, function(result) {
-            var settings = typeof(safari) != "undefined" ? safari.extension.settings : localStorage;
-            var language = settings.language != null ? settings.language : options.language;
-            if (!result.error && result.language != language) {
-              google.language.translate(text, result.language, language,function(result) {
+var settings = typeof(safari) != "undefined" ? safari.extension.settings : localStorage;
+
+function translateThenResponse(message, sendResponse) {
+    var text = message.text;
+    google.language.detect(text, function(result) {
+        var language = settings.language;
+        if (!result.error && result.language != language) {
+            google.language.translate(text, result.language, language, function(result) {
                 if (result.translation && result.translation.search(/^\s*$/) == -1) {
-                    console.log(result.translation);
-                    if (typeof(safari) != "undefined") {
-                        safari.application.activeBrowserWindow.activeTab.page.dispatchMessage(text, {"translation":result.translation,"rect":messageEvent.message.rect});
-                    } else if (typeof(chrome) != "undefined") {
-                        sendResponse({"name":text, "message":{"translation":result.translation,"rect":messageEvent.message.rect}});
-                    }
+                    sendResponse({"translation":result.translation,"rect":message.rect});
                 }
-              });
-            }
+            });
+        }
+    });
+}
+
+function handleMessageEvent(messageEvent) {
+    if(messageEvent.name == "TranslateWindow") {
+        translateThenResponse(messageEvent.message, function(message) {
+            messageEvent.target.page.dispatchMessage(messageEvent.message.text, message);
         });
     }
 }
+
+function handleConnect(port) {
+    if (port.name == "TranslateWindow") {
+        port.onMessage.addListener(function(message) {
+            translateThenResponse(message, function(message){port.postMessage(message);});
+        });
+    }
+} 
 
 function initialize() {
     if (typeof(safari) != "undefined") {
         safari.application.addEventListener("message", handleMessageEvent, false);
     } else if (typeof(chrome) != "undefined") {
-        chrome.extension.onRequest.addListener(handleMessageEvent);
+        for (var i in options) {
+            if (localStorage[i] === null) {
+                localStorage[i] = options[i];
+            }
+        }
+        chrome.extension.onConnect.addListener(handleConnect);
     }
 }
 

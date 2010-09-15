@@ -32,13 +32,13 @@ translationWindow.style.position = "absolute";
 translationWindow.style.width = "auto"; //width.toString()+"px";
 translationWindow.style.height = "auto";
 
-var mouseOverNode;
-
 function setTranslationWindowRect(rect, useTransform) {
+    if (translationWindow.parentNode === null) {
+        document.body.appendChild(translationWindow);
+    }
     var top = document.body.scrollTop + rect.top;
     var left = document.body.scrollLeft + rect.left;
     var width = rect.width;
-    var height = rect.height;
     if (useTransform) {
         translationWindow.style.webkitTransitionProperty = 'all';
         translationWindow.style.webkitTransitionDuration = '0.3s';
@@ -48,18 +48,31 @@ function setTranslationWindowRect(rect, useTransform) {
     translationWindow.style.width = width.toString()+"px";
 }
 
-function getTranslation(event) {
-    setTranslationWindowRect(event.message.rect, true);
-    translationWindow.innerHTML = event.message.translation;
+function getTranslation(message) {
+    setTranslationWindowRect(message.rect, true);
+    translationWindow.innerHTML = message.translation;
 }
 
-function sendTranslationRequest(text, rect) {
-    if (typeof(safari) != "undefined") {
-        safari.self.tab.dispatchMessage("Translate", {"text":text, "rect":rect});
-    } else if (typeof(chrome) != "undefined") {
-        chrome.extension.sendRequest({"name":"Translate", "message":{"text":text, "rect":rect}}, getTranslation);
-    }
+
+var port;   // This is used by Chrome.
+var sendTranslationRequest;
+
+if (typeof(safari) != "undefined") {
+    sendTranslationRequest = function(text, rect) {
+            safari.self.tab.dispatchMessage("TranslateWindow", {"text":text, "rect":rect});
+        };
+    safari.self.addEventListener("message", function(eventMessage) {
+            getTranslation(eventMessage.message);
+        }, false);
+} else if (typeof(chrome) != "undefined") {
+    var port = chrome.extension.connect({"name":"TranslateWindow"});
+    port.onMessage.addListener(getTranslation);
+    sendTranslationRequest = function(text, rect) {
+            port.postMessage({"text":text, "rect":rect});
+        };
 }
+
+var mouseOverNode;
 
 function translateMouseOverNode() {
     var range = document.createRange();
@@ -98,9 +111,6 @@ function handleKeyDownEvent(event) {
         translationWindow.style.visibility = "hidden";
     } else {
         if (event.altKey && event.ctrlKey && event.keyCode == 'D'.charCodeAt(0)) {
-            if (translationWindow.parentNode === null) {
-                document.body.appendChild(translationWindow);
-            }
             var selection = window.getSelection();
             var selectionString = selection.toString();
             if (selectionString == "") {
@@ -111,9 +121,6 @@ function handleKeyDownEvent(event) {
     }
 }
 
-function handleKeyUpEvent(event) {
-}
-
 if (document.body) {
     document.body.appendChild(translationWindow);
 }
@@ -121,7 +128,3 @@ if (document.body) {
 document.addEventListener("mouseover", handleMouseOverEvent, false);
 document.addEventListener("mouseup", handleMouseUpEvent, false);
 document.addEventListener("keydown", handleKeyDownEvent, false);
-document.addEventListener("keyup", handleKeyUpEvent, false);
-if (typeof(safari) != "undefined") {
-    safari.self.addEventListener("message", getTranslation, false);
-}
