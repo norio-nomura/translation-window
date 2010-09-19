@@ -1,7 +1,7 @@
 {
     "name":"Translation Window",
-    "version":"1.1",
-    "description":"Translation Window",
+    "version":"1.2",
+    "description":"Ctrl+Alt+D activate Translation Window",
     "icons":{
         "16":"Icon-16.png",
         "48":"Icon-48.png",
