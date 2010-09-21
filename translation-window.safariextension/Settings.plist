@@ -194,5 +194,33 @@
 			<string>vi</string>
 		</array>
 	</dict>
+	<dict>
+		<key>DefaultValue</key>
+		<string>medium</string>
+		<key>Key</key>
+		<string>fontSize</string>
+		<key>MaximumValue</key>
+		<real>72</real>
+		<key>MinimumValue</key>
+		<real>16</real>
+		<key>Title</key>
+		<string>Font Size</string>
+		<key>Titles</key>
+		<array>
+			<string>Medium</string>
+			<string>Large</string>
+			<string>X-Large</string>
+			<string>XX-Large</string>
+		</array>
+		<key>Type</key>
+		<string>PopUpButton</string>
+		<key>Values</key>
+		<array>
+			<string>medium</string>
+			<string>large</string>
+			<string>x-large</string>
+			<string>xx-large</string>
+		</array>
+	</dict>
 </array>
 </plist>

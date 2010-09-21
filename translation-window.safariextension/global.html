@@ -40,7 +40,7 @@ function translateThenResponse(message, sendResponse) {
         if (!result.error && result.language != language) {
             google.language.translate(text, result.language, language, function(result) {
                 if (result.translation && result.translation.search(/^\s*$/) == -1) {
-                    sendResponse({"translation":result.translation,"rect":message.rect});
+                    sendResponse({"translation":result.translation, "rect":message.rect, "fontSize":settings.fontSize});
                 }
             });
         }

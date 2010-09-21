@@ -1,3 +1,4 @@
 var options = {
-    "language":"en"
+    "language":"en",
+    "fontSize":"medium"
 };
