@@ -32,7 +32,7 @@ translationWindow.style.position = "absolute";
 translationWindow.style.width = "auto"; //width.toString()+"px";
 translationWindow.style.height = "auto";
 
-function setTranslationWindowRect(rect, fontSize, useTransform) {
+function setTranslationWindowRect(rect, useTransform) {
     if (translationWindow.parentNode === null) {
         document.body.appendChild(translationWindow);
     }
@@ -43,15 +43,34 @@ function setTranslationWindowRect(rect, fontSize, useTransform) {
         translationWindow.style.webkitTransitionProperty = 'all';
         translationWindow.style.webkitTransitionDuration = '0.3s';
     }
-    translationWindow.style.fontSize = fontSize;
     translationWindow.style.top = top.toString()+"px";
     translationWindow.style.left = left.toString()+"px";
     translationWindow.style.width = width.toString()+"px";
 }
 
+function setTranslationWindowFontSize(fontSize) {
+    if (translationWindow.parentNode === null) {
+        document.body.appendChild(translationWindow);
+    }
+    translationWindow.style.fontSize = fontSize;
+}
+
 function getTranslation(message) {
-    setTranslationWindowRect(message.rect, message.fontSize, true);
-    translationWindow.innerHTML = message.translation;
+    if (message.rect) {
+        setTranslationWindowRect(message.rect, true);
+    }
+    if (message.fontSize) {
+        translationWindow.style.fontSize = message.fontSize;
+    }
+    if (message.color) {
+        translationWindow.style.color = message.color;
+    }
+    if (message.backgroundColor) {
+        translationWindow.style.backgroundColor = message.backgroundColor;
+    }
+    if (message.translation) {
+        translationWindow.innerHTML = message.translation;
+    }
 }
 
 

@@ -35,16 +35,31 @@ function save_options() {
     for (var i in options) {
         var element = document.getElementById(i);
         localStorage[i] = element.value;
+        options[i] = element.value;
     }
+}
+
+function update_sample() {
+    var sample = document.getElementById("sample");
+    sample.style.fontSize = options.fontSize;
+    var color = "#"+RGBtoHex(options.red, options.green, options.blue);
+    var backgroundColor = "#"+RGBtoHex(options.backgroundRed, options.backgroundGreen, options.backgroundBlue);
+    sample.style.color = color;
+    sample.style.backgroundColor = backgroundColor;
+    sample.innerText = "Color = "+ color + ", BGColor = " + backgroundColor;
 }
 
 function restore_options() {
     for (var i in options) {
         var element = document.getElementById(i);
         element.value = localStorage[i] != null ? localStorage[i] : options[i];
+        options[i] = element.value;
         element.addEventListener("change", save_options, false);
+        element.addEventListener("change", update_sample, false);
     }
+    update_sample();
 }
+
 
 </script>
 <style>
@@ -222,6 +237,49 @@ option {
 </select>
 </td>
 </tr>
+<tr class="group">
+<th >Font Color</th>
+</tr>
+<tr >
+<th>Red</th>
+<td>
+<input id="red" type="range" min="0" max="255" />
+</td>
+</tr>
+<tr>
+<th>Green</th>
+<td>
+<input id="green" type="range" min="0" max="255" />
+</td>
+</tr>
+<tr>
+<th>Blue</th>
+<td>
+<input id="blue" type="range" min="0" max="255" />
+</td>
+</tr>
+<tr class="group">
+<th >Background Color</th>
+</tr>
+<tr >
+<th>Red</th>
+<td>
+<input id="backgroundRed" type="range" min="0" max="255" />
+</td>
+</tr>
+<tr>
+<th>Green</th>
+<td>
+<input id="backgroundGreen" type="range" min="0" max="255" />
+</td>
+</tr>
+<tr>
+<th>Blue</th>
+<td>
+<input id="backgroundBlue" type="range" min="0" max="255" />
+</td>
+</tr>
 </table>
+<div id="sample">This is sample.</div>
 </body>
 </html>

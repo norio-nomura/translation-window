@@ -55,6 +55,27 @@ function handleMessageEvent(messageEvent) {
     }
 }
 
+function settingsChanged(changeEvent) {
+    var message = {};
+    switch (changeEvent.key) {
+        case "fontSize":
+            message["fontSize"] = settings.fontSize;
+            break;
+        case "red":
+        case "green":
+        case "blue":
+            message["color"] = "#"+RGBtoHex(settings.red, settings.green, settings.blue);
+            break;
+        case "backgroundRed":
+        case "backgroundGreen":
+        case "backgroundBlue":
+            message["backgroundColor"] = "#"+RGBtoHex(settings.backgroundRed, settings.backgroundGreen, settings.backgroundBlue);
+            break;
+        default:
+    }
+    safari.application.activeBrowserWindow.activeTab.page.dispatchMessage(changeEvent.key, message);
+}
+
 function handleConnect(port) {
     if (port.name == "TranslateWindow") {
         port.onMessage.addListener(function(message) {
@@ -66,6 +87,7 @@ function handleConnect(port) {
 function initialize() {
     if (typeof(safari) != "undefined") {
         safari.application.addEventListener("message", handleMessageEvent, false);
+        safari.extension.settings.addEventListener("change", settingsChanged, false);
     } else if (typeof(chrome) != "undefined") {
         for (var i in options) {
             if (localStorage[i] === null) {
