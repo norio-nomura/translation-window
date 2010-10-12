@@ -32,17 +32,14 @@ THE SOFTWARE.
 <script type="text/javascript">
 
 var settings = typeof(safari) != "undefined" ? safari.extension.settings : localStorage;
+var branding;
 
 function translateThenResponse(message, sendResponse) {
     var text = message.text;
-    google.language.detect(text, function(result) {
-        var language = settings.language;
-        if (!result.error && result.language != language) {
-            google.language.translate(text, result.language, language, function(result) {
-                if (result.translation && result.translation.search(/^\s*$/) == -1) {
-                    sendResponse({"translation":result.translation, "rect":message.rect, "fontSize":settings.fontSize});
-                }
-            });
+    var language = settings.language;
+    google.language.translate(text.substr(0,5000), "", language, function(result) {
+        if (result.detectedSourceLanguage != language && result.translation && result.translation.search(/^\s*$/) == -1) {
+            sendResponse({"translation":result.translation+branding.outerHTML, "rect":message.rect, "fontSize":settings.fontSize});
         }
     });
 }
@@ -96,6 +93,8 @@ function initialize() {
         }
         chrome.extension.onConnect.addListener(handleConnect);
     }
+    branding = google.language.getBranding({"type":"horizontal"});
+    branding.style.float = "right";
 }
 
 google.load("language", "1");
