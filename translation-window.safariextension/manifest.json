@@ -1,6 +1,6 @@
 {
     "name":"Translation Window",
-    "version":"1.4",
+    "version":"1.5",
     "description":"Ctrl+Alt+D activate Translation Window",
     "icons":{
         "16":"Icon-16.png",
@@ -11,7 +11,7 @@
     "content_scripts":[
         {
             "matches":["https://*/*","http://*/*"],
-            "js":["afterLoad.js"],
+            "js":["translation-window.afterLoad.js"],
             "run_at":"document_end"
         }
     ],

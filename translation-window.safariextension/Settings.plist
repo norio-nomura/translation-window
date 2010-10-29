@@ -4,13 +4,14 @@
 <array>
 	<dict>
 		<key>DefaultValue</key>
-		<string>en</string>
+		<string></string>
 		<key>Key</key>
 		<string>language</string>
 		<key>Title</key>
 		<string>Language</string>
 		<key>Titles</key>
 		<array>
+			<string>System Language</string>
 			<string>AFRIKAANS</string>
 			<string>ALBANIAN</string>
 			<string>AMHARIC</string>
@@ -104,6 +105,7 @@
 		<string>PopUpButton</string>
 		<key>Values</key>
 		<array>
+			<string></string>
 			<string>af</string>
 			<string>sq</string>
 			<string>am</string>

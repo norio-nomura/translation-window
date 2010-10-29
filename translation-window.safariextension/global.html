@@ -31,21 +31,29 @@ THE SOFTWARE.
 <script type="text/javascript" src="http://www.google.com/jsapi"></script>
 <script type="text/javascript">
 
-var settings = typeof(safari) != "undefined" ? safari.extension.settings : localStorage;
+var settings = typeof(safari) != 'undefined' ? safari.extension.settings : localStorage;
 var branding;
 
 function translateThenResponse(message, sendResponse) {
+    var re = /^([^-]+)(?:-\S+)?$/;
     var text = message.text;
     var language = settings.language;
-    google.language.translate(text.substr(0,5000), "", language, function(result) {
+    var systemLanguage = settings.systemLanguage;
+    if (systemLanguage === null) {
+        settings.language = '';
+    }
+    systemLanguage = re.exec(window.navigator.language)[1];
+    settings.systemLanguage = systemLanguage;
+    language = language ? language : systemLanguage;
+    google.language.translate(text.substr(0,5000), '', language, function(result) {
         if (result.detectedSourceLanguage != language && result.translation && result.translation.search(/^\s*$/) == -1) {
-            sendResponse({"translation":result.translation+branding.outerHTML, "rect":message.rect, "fontSize":settings.fontSize});
+            sendResponse({'translation':result.translation+branding.outerHTML, 'rect':message.rect, 'fontSize':settings.fontSize});
         }
     });
 }
 
 function handleMessageEvent(messageEvent) {
-    if(messageEvent.name == "TranslateWindow") {
+    if(messageEvent.name == 'TranslateWindow') {
         translateThenResponse(messageEvent.message, function(message) {
             messageEvent.target.page.dispatchMessage(messageEvent.message.text, message);
         });
@@ -55,18 +63,18 @@ function handleMessageEvent(messageEvent) {
 function settingsChanged(changeEvent) {
     var message = {};
     switch (changeEvent.key) {
-        case "fontSize":
-            message["fontSize"] = settings.fontSize;
+        case 'fontSize':
+            message['fontSize'] = settings.fontSize;
             break;
-        case "red":
-        case "green":
-        case "blue":
-            message["color"] = "#"+RGBtoHex(settings.red, settings.green, settings.blue);
+        case 'red':
+        case 'green':
+        case 'blue':
+            message['color'] = '#'+RGBtoHex(settings.red, settings.green, settings.blue);
             break;
-        case "backgroundRed":
-        case "backgroundGreen":
-        case "backgroundBlue":
-            message["backgroundColor"] = "#"+RGBtoHex(settings.backgroundRed, settings.backgroundGreen, settings.backgroundBlue);
+        case 'backgroundRed':
+        case 'backgroundGreen':
+        case 'backgroundBlue':
+            message['backgroundColor'] = '#'+RGBtoHex(settings.backgroundRed, settings.backgroundGreen, settings.backgroundBlue);
             break;
         default:
     }
@@ -74,7 +82,7 @@ function settingsChanged(changeEvent) {
 }
 
 function handleConnect(port) {
-    if (port.name == "TranslateWindow") {
+    if (port.name == 'TranslateWindow') {
         port.onMessage.addListener(function(message) {
             translateThenResponse(message, function(message){port.postMessage(message);});
         });
@@ -82,10 +90,10 @@ function handleConnect(port) {
 } 
 
 function initialize() {
-    if (typeof(safari) != "undefined") {
-        safari.application.addEventListener("message", handleMessageEvent, false);
-        safari.extension.settings.addEventListener("change", settingsChanged, false);
-    } else if (typeof(chrome) != "undefined") {
+    if (typeof(safari) != 'undefined') {
+        safari.application.addEventListener('message', handleMessageEvent, false);
+        safari.extension.settings.addEventListener('change', settingsChanged, false);
+    } else if (typeof(chrome) != 'undefined') {
         for (var i in options) {
             if (localStorage[i] === null) {
                 localStorage[i] = options[i];
@@ -93,11 +101,11 @@ function initialize() {
         }
         chrome.extension.onConnect.addListener(handleConnect);
     }
-    branding = google.language.getBranding({"type":"horizontal"});
-    branding.style.float = "right";
+    branding = google.language.getBranding({'type':'horizontal'});
+    branding.style.float = 'right';
 }
 
-google.load("language", "1");
+google.load('language', '1');
 google.setOnLoadCallback(initialize);
 
 </script>

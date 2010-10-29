@@ -25,14 +25,15 @@ THE SOFTWARE.
 */
 
 var options = {
-    "language":"en",
-    "fontSize":"medium",
-    "red":"0",
-    "green":"0",
-    "blue":"0",
-    "backgroundRed":"251",
-    "backgroundGreen":"252",
-    "backgroundBlue":"197"
+    version: '1.5',
+    language:'',
+    fontSize:'medium',
+    red:'0',
+    green:'0',
+    blue:'0',
+    backgroundRed:'251',
+    backgroundGreen:'252',
+    backgroundBlue:'197'
 };
 
 function RGBtoHex(R,G,B) {
@@ -41,14 +42,14 @@ function RGBtoHex(R,G,B) {
 
 function toHex(N) {
     if (N == null) {
-        return "00";
+        return '00';
     }
     N = parseInt(N);
     if (N == 0 || isNaN(N)) {
-        return "00";
+        return '00';
     }
     N = Math.max(0, N);
     N = Math.min(N, 255);
     N = Math.round(N);
-    return "0123456789ABCDEF".charAt((N - N % 16) / 16) + "0123456789ABCDEF".charAt(N % 16);
+    return '0123456789ABCDEF'.charAt((N - N % 16) / 16) + '0123456789ABCDEF'.charAt(N % 16);
 }
