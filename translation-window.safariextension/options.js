@@ -25,7 +25,6 @@ THE SOFTWARE.
 */
 
 var options = {
-    version: '1.5',
     language:'',
     fontSize:'medium',
     red:'0',

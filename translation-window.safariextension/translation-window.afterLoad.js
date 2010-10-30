@@ -109,9 +109,15 @@ if (window.top === window) {
     
     function handleMouseOverEvent(event) {
         if (event.target != translationWindow) {
-            mouseOverNode = event.target;
-            if (translationWindow.style.visibility == 'visible' ) {
-                translateMouseOverNode();
+            var parentNode = event.target.parentNode;
+            while (parentNode && parentNode != translationWindow) {
+                parentNode = parentNode.parentNode;
+            }
+            if (parentNode != translationWindow) {
+                mouseOverNode = event.target;
+                if (translationWindow.style.visibility == 'visible' ) {
+                    translateMouseOverNode();
+                }
             }
         }
     }

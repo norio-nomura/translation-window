@@ -35,14 +35,9 @@ var settings = typeof(safari) != 'undefined' ? safari.extension.settings : local
 var branding;
 
 function translateThenResponse(message, sendResponse) {
-    var re = /^([^-]+)(?:-\S+)?$/;
     var text = message.text;
     var language = settings.language;
-    var systemLanguage = settings.systemLanguage;
-    if (systemLanguage === null) {
-        settings.language = '';
-    }
-    systemLanguage = re.exec(window.navigator.language)[1];
+    var systemLanguage = /^([^-]+)(?:-\S+)?$/.exec(window.navigator.language)[1];
     settings.systemLanguage = systemLanguage;
     language = language ? language : systemLanguage;
     google.language.translate(text.substr(0,5000), '', language, function(result) {
@@ -100,6 +95,9 @@ function initialize() {
             }
         }
         chrome.extension.onConnect.addListener(handleConnect);
+    }
+    if (settings.systemLanguage === null) {
+        settings.language = '';
     }
     branding = google.language.getBranding({'type':'horizontal'});
     branding.style.float = 'right';
