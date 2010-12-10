@@ -25,7 +25,7 @@ THE SOFTWARE.
 */
 
 if (window.top === window) {
-    
+(function () {
     var translationWindow = document.createElement('div');
     translationWindow.style.visibility = 'hidden';
     translationWindow.style.backgroundColor = 'InfoBackground';
@@ -156,5 +156,5 @@ if (window.top === window) {
     document.addEventListener('mouseover', handleMouseOverEvent, false);
     document.addEventListener('mouseup', handleMouseUpEvent, false);
     document.addEventListener('keydown', handleKeyDownEvent, false);
-
+})();
 }
