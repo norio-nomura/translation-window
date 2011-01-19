@@ -8,7 +8,7 @@
 		<key>Key</key>
 		<string>language</string>
 		<key>Title</key>
-		<string>Language</string>
+		<string>Translate to</string>
 		<key>Titles</key>
 		<array>
 			<string>System Language</string>
@@ -232,7 +232,7 @@
 	</dict>
 	<dict>
 		<key>DefaultValue</key>
-		<real>0</real>
+		<real>0.0</real>
 		<key>Key</key>
 		<string>red</string>
 		<key>MaximumValue</key>
@@ -244,7 +244,7 @@
 	</dict>
 	<dict>
 		<key>DefaultValue</key>
-		<real>0</real>
+		<real>0.0</real>
 		<key>Key</key>
 		<string>green</string>
 		<key>MaximumValue</key>
@@ -256,7 +256,7 @@
 	</dict>
 	<dict>
 		<key>DefaultValue</key>
-		<real>0</real>
+		<real>0.0</real>
 		<key>Key</key>
 		<string>blue</string>
 		<key>MaximumValue</key>
