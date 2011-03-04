@@ -38,11 +38,19 @@ function translateThenResponse(message, sendResponse) {
     var text = message.text;
     var language = settings.language;
     var systemLanguage = /^([^-]+)(?:-\S+)?$/.exec(window.navigator.language)[1];
+    var rect = typeof(settings.overlap) === 'boolean' && settings.overlap || settings.overlap == 'true' ? message.rect : {
+          top: message.rect.top + message.rect.height,
+          right: message.rect.right,
+          bottom: message.rect.bottom + message.rect.height,
+          left: message.rect.left,
+          width: message.rect.width,
+          height: message.rect.height
+        };
     settings.systemLanguage = systemLanguage;
     language = language ? language : systemLanguage;
     google.language.translate(text.substr(0,5000), '', language, function(result) {
         if (result.detectedSourceLanguage != language && result.translation && result.translation.search(/^\s*$/) == -1) {
-            sendResponse({'translation':result.translation+branding.outerHTML, 'rect':message.rect, 'fontSize':settings.fontSize});
+            sendResponse({'translation':result.translation+branding.outerHTML, 'rect':rect, 'fontSize':settings.fontSize});
         }
     });
 }

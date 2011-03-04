@@ -27,6 +27,7 @@ THE SOFTWARE.
 var options = {
     language:'',
     fontSize:'medium',
+    overlap:false,
     red:'0',
     green:'0',
     blue:'0',

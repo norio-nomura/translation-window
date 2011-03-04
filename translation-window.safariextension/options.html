@@ -34,8 +34,16 @@ THE SOFTWARE.
 function save_options() {
     for (var i in options) {
         var element = document.getElementById(i);
-        localStorage[i] = element.value;
-        options[i] = element.value;
+        switch (element.type) {
+            case 'checkbox':
+            case 'radio':
+                localStorage[i] = element.checked;
+                options[i] = element.checked;
+                break;
+            default:
+                localStorage[i] = element.value;
+                options[i] = element.value;
+        };
     }
 }
 
@@ -52,8 +60,16 @@ function update_sample() {
 function restore_options() {
     for (var i in options) {
         var element = document.getElementById(i);
-        element.value = localStorage[i] != null ? localStorage[i] : options[i];
-        options[i] = element.value;
+        switch (element.type) {
+            case 'checkbox':
+            case 'radio':
+                element.checked = ((localStorage[i] || options[i]) === 'true');
+                options[i] = element.checked;
+                break;
+            default:
+                element.value = (localStorage[i] != null ? localStorage[i] : options[i]);
+                options[i] = element.value;
+        };
         element.addEventListener("change", save_options, false);
         element.addEventListener("change", update_sample, false);
     }
@@ -127,6 +143,12 @@ option {
 .extension-settings tr:not(.group) > th:not(:empty):after {
     content: ":";
 }
+
+.extension-settings tr.check-box:not(.anchored), .extension-settings tr.button:not(.anchored) {
+    text-align: center;
+}
+
+
 </style>
 </head>
 <body onload="restore_options()">
@@ -235,6 +257,14 @@ option {
 <option value="large">Large</option>
 <option value="x-large">X-Large</option>
 <option value="xx-large">XX-Large</option>
+</select>
+</td>
+</tr>
+<tr class="check-box">
+<td colspan=2>
+<label>
+<input type="checkbox" id="overlap" value="true">
+Translation Window overlap the source text.</label>
 </select>
 </td>
 </tr>

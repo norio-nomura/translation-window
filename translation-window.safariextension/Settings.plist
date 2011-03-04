@@ -225,6 +225,18 @@
 		</array>
 	</dict>
 	<dict>
+		<key>DefaultValue</key>
+		<true/>
+		<key>Key</key>
+		<string>overlap</string>
+		<key>MaximumValue</key>
+		<real>255</real>
+		<key>Title</key>
+		<string>Translation Window overlap the source text.</string>
+		<key>Type</key>
+		<string>CheckBox</string>
+	</dict>
+	<dict>
 		<key>Title</key>
 		<string>Font Color</string>
 		<key>Type</key>
